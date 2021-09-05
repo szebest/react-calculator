@@ -1,9 +1,9 @@
 import classes from './style/Button.module.scss'
 
-function Button() {
+function Button({span_two, operator, callback_function}) {
     return (
-        <div className={classes.button}>
-
+        <div className={`${classes.button}${span_two ? " " + classes.span_two : ""}`}>
+            <button onClick={() => {callback_function(operator)}}>{operator}</button>
         </div>
     )
 }
