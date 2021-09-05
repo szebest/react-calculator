@@ -61,7 +61,7 @@ function Calculator() {
                     setCurrentOperand("0")
                 }
                 else {
-                    setOperator(operator)
+                    setOperator(op)
                 }
             } break
             case "=": {
