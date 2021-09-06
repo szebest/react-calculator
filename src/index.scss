@@ -1,0 +1,30 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+html {
+    --bg-first: #add8e6;
+    --bg-second:  #90ee90;
+    --primary: rgba(255, 255, 255, 0.75);
+    --primary-hover: rgba(225, 225, 225, 0.75);
+    --secondary: rgba(0, 0, 0, 0.75);
+
+    background: linear-gradient(to right, var(--bg-first), var(--bg-second));
+}
+
+html[data-theme='dark'] {
+    --bg-first: #5a7077;
+    --bg-second:  #315331;
+    --primary: rgba(30, 30, 30, 0.75);
+    --primary-hover: rgba(60, 60, 60, 0.75);
+    --secondary: rgba(225, 225, 225, 0.75);
+}
+
+html.transition,
+html.transition *,
+html.transition *:before,
+html.transition *:after {
+  transition: color 500ms !important;
+  transition-delay: 0 !important;
+}

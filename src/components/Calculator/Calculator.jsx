@@ -8,6 +8,7 @@ function Calculator() {
     const [previousOperand, setPreviousOperand] = useState("")
     const [operator, setOperator] = useState("")
     const [currentOperand, setCurrentOperand] = useState("0")
+    const [lastWasEqualSign, setLastWasEqualSign] = useState(false);
 
     const onKeyPressed = (e) => {
         if (e.keyCode >= 96 && e.keyCode <= 105)
@@ -38,8 +39,7 @@ function Calculator() {
         }
     })
 
-    function toFixed(x) {
-        console.log(this)
+    const toFixed = (x) => {
         if (Math.abs(x) < 1.0) {
             var e = parseInt(x.toString().split('e-')[1]);
             if (e) {
@@ -59,16 +59,19 @@ function Calculator() {
 
     const onClickNumber = (number) => {
         if (number !== ".") {
-            if (currentOperand === "0")
+            if (currentOperand === "0" || lastWasEqualSign)
                 setCurrentOperand(number)
             else
                 setCurrentOperand(prev => prev + number)
         }
         else if (![...currentOperand].some((char) => char === '.')) 
             setCurrentOperand(prev => prev + number)
+
+        setLastWasEqualSign(false)
     }
 
     const onClickOperator = (op) => {
+        setLastWasEqualSign(false)
         switch (op) {
             case "AC": {
                 setCurrentOperand("0")
@@ -115,6 +118,7 @@ function Calculator() {
                 setPreviousOperand("")
                 setOperator("")
                 setCurrentOperand(toFixed(result).toString())
+                setLastWasEqualSign(true)
             } break
         }
     }
