@@ -36,7 +36,7 @@ function ThemeToggle() {
 
     return (
         <div className={classes.themeToggle} onClick={handleClick}>
-            <a href="#0">{theme}</a>
+            <a href="/" onClick={(e) => {e.preventDefault()}}>{theme}</a>
             <input type="checkbox" id="switch" name="theme" disabled checked={theme === "dark" ? true : false}/>
             <label htmlFor="switch">Toggle</label>
         </div>
