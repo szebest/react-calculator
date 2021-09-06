@@ -2,3 +2,7 @@
     box-sizing: border-box;
     overflow: hidden;
 }
+
+body {
+    background: linear-gradient(to right, lightgray, lightgreen);
+}

@@ -39,6 +39,7 @@ function Calculator() {
     })
 
     function toFixed(x) {
+        console.log(this)
         if (Math.abs(x) < 1.0) {
             var e = parseInt(x.toString().split('e-')[1]);
             if (e) {
@@ -121,8 +122,8 @@ function Calculator() {
     return (
         <div className={classes.calculator}>
             <Output currentOperand={currentOperand} previousOperand={previousOperand} operator={operator}/>
-            <Button span_two operator="AC" callback_function={onClickOperator}/>
-            <Button operator="DEL" callback_function={onClickOperator}/>
+            <Button span_two operator="DEL" callback_function={onClickOperator}/>
+            <Button operator="AC" callback_function={onClickOperator}/>
             <Button operator="÷" callback_function={onClickOperator}/>
             <Button operator="1" callback_function={onClickNumber}/>
             <Button operator="2" callback_function={onClickNumber}/>
