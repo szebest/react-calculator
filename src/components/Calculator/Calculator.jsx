@@ -41,13 +41,13 @@ function Calculator() {
 
     const toFixed = (x) => {
         if (Math.abs(x) < 1.0) {
-            var e = parseInt(x.toString().split('e-')[1]);
+            let e = parseInt(x.toString().split('e-')[1]);
             if (e) {
                 x *= Math.pow(10, e - 1);
                 x = '0.' + (new Array(e)).join('0') + x.toString().substring(2);
             }
         } else {
-            var e = parseInt(x.toString().split('+')[1]);
+            let e = parseInt(x.toString().split('+')[1]);
             if (e > 20) {
                 e -= 20;
                 x /= Math.pow(10, e);
@@ -73,21 +73,21 @@ function Calculator() {
     const onClickOperator = (op) => {
         setLastWasEqualSign(false)
         switch (op) {
-            case "AC": {
+            case "AC": 
                 setCurrentOperand("0")
                 setOperator("")
                 setPreviousOperand("")
-            } break
-            case "DEL": {
+                break
+            case "DEL": 
                 setCurrentOperand(prev => {
                     const substr = prev.substring(0, prev.length - 1)
                     return substr.length > 0 ? substr : "0"
                 })
-            } break
+                break
             case "÷": 
             case "*": 
             case "+": 
-            case "-": {
+            case "-": 
                 if (operator === "") {
                     setPreviousOperand(currentOperand)
                     setOperator(op)
@@ -96,30 +96,32 @@ function Calculator() {
                 else {
                     setOperator(op)
                 }
-            } break
-            case "=": {
+                break
+            case "=":
                 if (operator === "")
                     break
                 let result;
                 switch (operator) {
-                    case "÷": {
+                    case "÷":
                         result = parseFloat(previousOperand) / parseFloat(currentOperand)
-                    } break;
-                    case "*": {
+                        break
+                    case "*":
                         result = parseFloat(previousOperand) * parseFloat(currentOperand)
-                    } break;
-                    case "+": {
+                        break
+                    case "+":
                         result = parseFloat(previousOperand) + parseFloat(currentOperand)
-                    } break;
-                    case "-": {
+                        break
+                    case "-":
                         result = parseFloat(previousOperand) - parseFloat(currentOperand)
-                    } break;
+                        break
+                    default: break
                 }
                 setPreviousOperand("")
                 setOperator("")
                 setCurrentOperand(toFixed(result).toString())
                 setLastWasEqualSign(true)
-            } break
+                break
+            default: break
         }
     }
 

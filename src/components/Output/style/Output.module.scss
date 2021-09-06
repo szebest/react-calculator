@@ -9,6 +9,7 @@
     flex-direction: column;
     word-wrap: break-word;
     word-break: break-all;
+    border: 1px solid var(--secondary);
 
     div:first-child {
         font-size: 1.5rem;

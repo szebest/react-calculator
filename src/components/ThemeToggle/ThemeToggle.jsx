@@ -17,7 +17,7 @@ function ThemeToggle() {
             setTheme(localStorageTheme)
             document.documentElement.setAttribute('data-theme', localStorageTheme)
         }
-    })
+    }, [])
 
     const handleClick = () => {
         transition()
@@ -35,10 +35,10 @@ function ThemeToggle() {
     }
 
     return (
-        <div className={classes.themeToggle}>
-            <a>{theme}</a>
-            <input type="checkbox" id="switch" name="theme" onChange={handleClick} checked={theme === "dark" ? true : false}/>
-            <label for="switch">Toggle</label>
+        <div className={classes.themeToggle} onClick={handleClick}>
+            <a href="#0">{theme}</a>
+            <input type="checkbox" id="switch" name="theme" disabled checked={theme === "dark" ? true : false}/>
+            <label htmlFor="switch">Toggle</label>
         </div>
     )
 }
