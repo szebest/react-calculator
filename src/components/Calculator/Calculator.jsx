@@ -9,6 +9,7 @@ function Calculator() {
     const [operator, setOperator] = useState("")
     const [currentOperand, setCurrentOperand] = useState("0")
     const [lastWasEqualSign, setLastWasEqualSign] = useState(false);
+    const [error, setError] = useState("")
 
     const onKeyPressed = (e) => {
         if (e.keyCode >= 96 && e.keyCode <= 105)
@@ -39,19 +40,30 @@ function Calculator() {
         }
     })
 
+    useEffect(() => {
+        if (error !== "")
+            var timeoutID = setTimeout(() => {
+                setError("")
+            }, 2000)
+
+        return () => {
+            clearTimeout(timeoutID)
+        }
+    }, [error])
+
     const toFixed = (x) => {
         if (Math.abs(x) < 1.0) {
-            let e = parseInt(x.toString().split('e-')[1]);
+            let e = parseInt(x.toString().split('e-')[1])
             if (e) {
-                x *= Math.pow(10, e - 1);
-                x = '0.' + (new Array(e)).join('0') + x.toString().substring(2);
+                x *= Math.pow(10, e - 1)
+                x = '0.' + (new Array(e)).join('0') + x.toString().substring(2)
             }
         } else {
-            let e = parseInt(x.toString().split('+')[1]);
+            let e = parseInt(x.toString().split('+')[1])
             if (e > 20) {
-                e -= 20;
-                x /= Math.pow(10, e);
-                x += (new Array(e + 1)).join('0');
+                e -= 20
+                x /= Math.pow(10, e)
+                x += (new Array(e + 1)).join('0')
             }
         }
         return x;
@@ -61,12 +73,21 @@ function Calculator() {
         if (number !== ".") {
             if (currentOperand === "0" || lastWasEqualSign)
                 setCurrentOperand(number)
-            else
-                setCurrentOperand(prev => prev + number)
+            else {
+                let arr = currentOperand.split('.')
+                if (arr[0].length < 10 || (arr.length > 1 && arr[1].length < 10))
+                    setCurrentOperand(prev => prev + number)
+                else {
+                    if (arr.length > 1)
+                        setError("You can only have up to 10 numbers after the decimal point")
+                    else
+                        setError("You can only have up to 10 numbers before the decimal point")
+                }
+            }
         }
         else if (![...currentOperand].some((char) => char === '.')) 
             setCurrentOperand(prev => prev + number)
-
+        
         setLastWasEqualSign(false)
     }
 
@@ -104,6 +125,10 @@ function Calculator() {
                 switch (operator) {
                     case "÷":
                         result = parseFloat(previousOperand) / parseFloat(currentOperand)
+                        if (isNaN(result)) {
+                            result = 0
+                            setError("Cannot divide by 0")
+                        }
                         break
                     case "*":
                         result = parseFloat(previousOperand) * parseFloat(currentOperand)
@@ -114,20 +139,24 @@ function Calculator() {
                     case "-":
                         result = parseFloat(previousOperand) - parseFloat(currentOperand)
                         break
-                    default: break
+                    default:
+                        setError("Unknown operation sign")
+                        break
                 }
                 setPreviousOperand("")
                 setOperator("")
                 setCurrentOperand(toFixed(result).toString())
                 setLastWasEqualSign(true)
                 break
-            default: break
+            default:
+                setError("Unknown operator")
+                break
         }
     }
 
     return (
         <div className={classes.calculator}>
-            <Output currentOperand={currentOperand} previousOperand={previousOperand} operator={operator}/>
+            <Output currentOperand={currentOperand} previousOperand={previousOperand} operator={operator} error={error}/>
             <Button span_two operator="DEL" callback_function={onClickOperator}/>
             <Button operator="AC" callback_function={onClickOperator}/>
             <Button operator="÷" callback_function={onClickOperator}/>

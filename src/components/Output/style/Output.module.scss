@@ -11,7 +11,7 @@
     word-break: break-all;
     border: 1px solid var(--secondary);
 
-    div:first-child {
+    div:nth-child(2) {
         font-size: 1.5rem;
         min-height: 2rem;
     }
@@ -19,4 +19,18 @@
     > div {
         margin-right: 20px;
     }
+}
+
+.error {
+    -webkit-text-stroke: 0.3px var(--secondary);
+    color: red;
+    font-size: 0.95rem;
+    font-weight: bold;
+    margin: 5px 0px !important;
+    justify-content: center;
+    text-align: center;
+    word-wrap: normal;
+    word-break: normal;
+    min-width: 100%;
+    padding: 0px 10px;
 }
