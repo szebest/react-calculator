@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import classes from './style/Calculator.module.scss'
 
 import Output from '../Output/Output.jsx';
@@ -9,23 +9,52 @@ function Calculator() {
     const [operator, setOperator] = useState("")
     const [currentOperand, setCurrentOperand] = useState("0")
 
+    const onKeyPressed = (e) => {
+        if (e.keyCode >= 96 && e.keyCode <= 105)
+            onClickNumber((e.keyCode - 96).toString())
+        else if (e.keyCode === 190)
+            onClickNumber(".")
+        else if (e.keyCode === 107)
+            onClickOperator("+")
+        else if (e.keyCode === 109)
+            onClickOperator("-")
+        else if (e.keyCode === 106)
+            onClickOperator("*")
+        else if (e.keyCode === 111)
+            onClickOperator("÷")
+        else if (e.keyCode === 46)
+            onClickOperator("AC")
+        else if (e.keyCode === 8)
+            onClickOperator("DEL")
+        else if (e.keyCode === 13 || e.keyCode === 187)
+            onClickOperator("=")
+    }
+
+    useEffect(() => {
+        document.addEventListener("keydown", onKeyPressed)
+
+        return () => {
+            document.removeEventListener("keydown", onKeyPressed)
+        }
+    })
+
     function toFixed(x) {
         if (Math.abs(x) < 1.0) {
-          var e = parseInt(x.toString().split('e-')[1]);
-          if (e) {
-              x *= Math.pow(10,e-1);
-              x = '0.' + (new Array(e)).join('0') + x.toString().substring(2);
-          }
+            var e = parseInt(x.toString().split('e-')[1]);
+            if (e) {
+                x *= Math.pow(10, e - 1);
+                x = '0.' + (new Array(e)).join('0') + x.toString().substring(2);
+            }
         } else {
-          var e = parseInt(x.toString().split('+')[1]);
-          if (e > 20) {
-              e -= 20;
-              x /= Math.pow(10,e);
-              x += (new Array(e+1)).join('0');
-          }
+            var e = parseInt(x.toString().split('+')[1]);
+            if (e > 20) {
+                e -= 20;
+                x /= Math.pow(10, e);
+                x += (new Array(e + 1)).join('0');
+            }
         }
         return x;
-      }
+    }
 
     const onClickNumber = (number) => {
         if (number !== ".") {
@@ -65,6 +94,8 @@ function Calculator() {
                 }
             } break
             case "=": {
+                if (operator === "")
+                    break
                 let result;
                 switch (operator) {
                     case "÷": {
