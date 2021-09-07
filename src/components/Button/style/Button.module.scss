@@ -17,6 +17,10 @@
         &:hover {
             background-color: var(--primary-hover);
         }
+
+        &:active {
+            background-color: color-mix(in rgb, var(--primary-hover), rgb(128, 128, 128, 1));
+        }
     }
 }
 
